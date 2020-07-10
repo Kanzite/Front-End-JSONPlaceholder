@@ -4,11 +4,19 @@ import { CSSTransition } from 'react-transition-group';
 class Overlay extends Component {
 
 	renderData() {
-		if(this.props.showlist === true) {
-			if(this.props.users.length === 0)
+		if(this.props.users.isLoading === false) {
+			if(this.props.users.users.length === 0 && this.props.displayedusers.length === 0)
 				return <section className="overlaysubhead"> No Users Found! </section>
-			else
-				return(this.props.users.map((user, i) => (
+			else if(this.props.displayedusers.length === 0)
+				return(this.props.users.users.map((user, i) => (
+					<CSSTransition key = {i} in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
+						<section key={i} className="user" style={{"transitionDelay": `${ i * 0.1 }s` }} onClick={this.props.renderDetails.bind(this, user.id)}>
+							<section className="userinner"> {user.username} </section>
+						</section>
+					</CSSTransition>
+				)));
+			else if(this.props.displayedusers.length !== 0)
+				return(this.props.displayedusers.map((user, i) => (
 					<CSSTransition key = {i} in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
 						<section key={i} className="user" style={{"transitionDelay": `${ i * 0.1 }s` }} onClick={this.props.renderDetails.bind(this, user.id)}>
 							<section className="userinner"> {user.username} </section>
@@ -31,7 +39,7 @@ class Overlay extends Component {
 	}
 
 	overlayInstance() {
-		if(this.props.show === true && this.props.showlist === true) {
+		if(this.props.show === true) {
 			return(
 				<CSSTransition key = {1} in={true} classNames="translateright" enter={false} exit={false} appear={true} timeout={1000}>
 					<div className="overlaywrapper in">
@@ -45,35 +53,7 @@ class Overlay extends Component {
 				</CSSTransition>
 			);
 		}
-		else if(this.props.show === true && this.props.showlist === false) {
-			return(
-				<CSSTransition key = {1} in={true} classNames="translateright" enter={false} exit={false} appear={true} timeout={1000}>
-					<div className="overlaywrapper in">
-						<CSSTransition in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
-							<section className="overlayhead"> Loading Content! </section>
-						</CSSTransition>
-						<CSSTransition in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
-							<section className="overlaysubhead"> please wait </section>
-						</CSSTransition>
-					</div>
-				</CSSTransition>
-			);
-		}
-		else if(this.props.show === false && this.props.showlist === false) {
-			return(
-				<CSSTransition key = {2} in={true} classNames="translateleft" enter={false} exit={false} appear={true} timeout={1000}>
-					<div className="overlaywrapper up">
-						<CSSTransition in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
-							<section className="overlayhead"> Loading Content! </section>
-						</CSSTransition>
-						<CSSTransition in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
-							<section className="overlaysubhead"> please wait </section>
-						</CSSTransition>
-					</div>
-				</CSSTransition>
-			);
-		}
-		else if(this.props.show === false && this.props.showlist === true) {
+		else if(this.props.show === false) {
 			return(
 				<CSSTransition key = {2} in={true} classNames="translateleft" enter={false} exit={false} appear={true} timeout={1000}>
 					<div className="overlaywrapper up">
