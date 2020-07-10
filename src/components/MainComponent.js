@@ -23,9 +23,10 @@ class Main extends Component {
 		super(props);
 
 		this.state = {
-			username: '',	
+			username: '',
 			displayedusers: [],
-			show: true
+			show: true,
+			flag: false
 		}
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,7 +43,8 @@ class Main extends Component {
 
 		this.setState({
 			username: value,
-			displayedusers: displayedusers
+			displayedusers: displayedusers,
+			flag: true
 		});
 	}
 
@@ -59,7 +61,7 @@ class Main extends Component {
 		return (
 			<div className="wrapper">
 				<div className="intro">
-				<Overlay username={this.state.username} displayedusers={this.state.displayedusers} users={this.props.users} show={this.state.show} handleInputChange={this.handleInputChange} renderDetails={this.renderDetails}/>
+				<Overlay username={this.state.username} displayedusers={this.state.displayedusers} users={this.props.users} show={this.state.show} handleInputChange={this.handleInputChange} renderDetails={this.renderDetails} flag={this.state.flag}/>
 					<div className="containerwrapper">
 						<section className="left">
 							<Left username={this.state.username} handleInputChange={this.handleInputChange}/>

@@ -4,10 +4,13 @@ import { CSSTransition } from 'react-transition-group';
 class Overlay extends Component {
 
 	renderData() {
+
 		if(this.props.users.isLoading === false) {
-			if(this.props.users.users.length === 0 && this.props.displayedusers.length === 0)
+			if(this.props.users.errMess !== null)
+				return <section className="overlaysubhead"> {this.props.users.errMess} </section>
+			else if(this.props.displayedusers.length === 0 && this.props.flag === true)
 				return <section className="overlaysubhead"> No Users Found! </section>
-			else if(this.props.displayedusers.length === 0)
+			else if(this.props.displayedusers.length === 0 && this.props.flag === false)
 				return(this.props.users.users.map((user, i) => (
 					<CSSTransition key = {i} in={true} classNames="fade" enter={false} exit={false} appear={true} timeout={1000}>
 						<section key={i} className="user" style={{"transitionDelay": `${ i * 0.1 }s` }} onClick={this.props.renderDetails.bind(this, user.id)}>
